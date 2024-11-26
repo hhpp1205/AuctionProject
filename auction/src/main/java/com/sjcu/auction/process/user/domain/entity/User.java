@@ -2,7 +2,9 @@ package com.sjcu.auction.process.user.domain.entity;
 
 import com.sjcu.auction.process.bid.domain.entity.Bid;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "TB_USER")
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -27,4 +31,13 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Bid> bidList;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }
