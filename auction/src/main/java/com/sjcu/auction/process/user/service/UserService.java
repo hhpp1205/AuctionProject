@@ -12,12 +12,14 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final LoginSupporter loginSupporter;
 
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
 
     public User saveUser(User user) {
+        user.updatePassword(loginSupporter.encodePassword(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -27,7 +29,7 @@ public class UserService {
 
     public User updateUser(Long userId, User user) {
         User originUser = userRepository.findById(userId).orElse(new User());
-        originUser.updatePassword(user.getPassword());
+        originUser.updatePassword(loginSupporter.encodePassword(user.getPassword()));
         return userRepository.save(originUser);
     }
 
